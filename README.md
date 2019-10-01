@@ -1,6 +1,6 @@
 # yts-cli
 An unofficial CLI client for yts.am torrents.
-Made by PiCoder314
+Made by PiCoder314.
 
 ## Coming Soon
 + New Movies
@@ -8,6 +8,12 @@ Made by PiCoder314
 + Filter
 + Trakt TV Authorization
 
+## Installation
+### git
+### wget
+`sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip"`
+### curl
+`sh -c "curl https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip"`
 ## Usage
 chmod u+x main.py
 ./main.py <search-term>
@@ -17,4 +23,4 @@ chmod u+x main.py
 Newbie developer, any help will be aprreciated.
 
 ## Disclaimer
-I am not the owner of any content.All content is probided by YTS.AM(formerly YIFY torrents)
+I am not the owner of any content.All content is provided by YTS.AM(formerly YIFY torrents)
