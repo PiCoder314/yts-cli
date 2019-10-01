@@ -12,7 +12,7 @@ Made by PiCoder314.
 ### git
 
 ```sh
-sh -c "git https://github.com/PiCoder314/yts-cli/master.git"
+sh -c "git clone https://github.com/PiCoder314/yts-cli/master.git"
 ```
 
 ### wget
