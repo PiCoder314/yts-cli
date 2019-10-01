@@ -11,22 +11,32 @@ Made by PiCoder314.
 ## Installation
 ### git
 
-```sh -c "git https://github.com/PiCoder314/yts-cli/master.git"```
+```sh
+sh -c "git https://github.com/PiCoder314/yts-cli/master.git"
+```
 
 ### wget
 
-```sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip"```
+```sh
+sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip"
+```
 
 ### curl
 
-```sh -c "curl https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip"```
+```sh
+sh -c "curl https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip"
+```
 ## Usage
+
+```sh
 chmod u+x main.py
+
 ./main.py <search-term>
+```
 
 
 ## Help needed
-Newbie developer, any help will be aprreciated.
+Newbie developer, any help will be appreciated.
 
 ## Disclaimer
-I am not the owner of any content.All content is provided by YTS.AM(formerly YIFY torrents)
+I am not the owner of any content, all content is provided by YTS.AM(formerly YIFY torrents).
