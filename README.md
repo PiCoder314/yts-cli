@@ -10,10 +10,16 @@ Made by PiCoder314.
 
 ## Installation
 ### git
+
+```sh -c "git https://github.com/PiCoder314/yts-cli/master.git"```
+
 ### wget
-`sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip"`
+
+```sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip"```
+
 ### curl
-`sh -c "curl https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip"`
+
+```sh -c "curl https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip"```
 ## Usage
 chmod u+x main.py
 ./main.py <search-term>
