@@ -48,8 +48,10 @@ def main():
                       )
     ]
     answers = inquirer.prompt(questions)
-    link = list(filter(lambda x: x.string == answers['movie'], links))[
-        0].get('href')
+    answers = answers['movie'].split('(', 1)[0][:-1]
+    print('Getting Download Links...')
+    link = list(filter(lambda x: x[0].string == answers, links))[0][0].get('href')
+    print(link)
     links = scraper.get_downloads(link)
     links = list(filter(lambda x: x.string != None, links))
     questions = [
