@@ -37,7 +37,7 @@ def main():
 
     print(f"Searching for {query}...")
     links = scraper.get_movie(query)
-    if len(links[0]) == 0:
+    if len(links) == 0:
         print('No movies found check the spelling')
         return 1
 

@@ -56,7 +56,6 @@ def get_movie(query):
 
 def get_downloads(link):
     PROXIES = settings.PROXIES
-    PROXIES = main.PROXIES
     response = get(link, proxies=PROXIES)
     html = response.text
     soup = BeautifulSoup(html, 'html5lib')
