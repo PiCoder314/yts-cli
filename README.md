@@ -41,9 +41,9 @@ chmod u+x main.py
 
 ./main.py --query=<search-term> <options>
 
--q, --query= : Movie tp search for
+-q, --query= : Movie to search for.
 
--p, --use-proxy : Use anonymous proxy
+-p, --use-proxy : Use anonymous proxy.
 
 ```
 
