@@ -15,7 +15,4 @@ HOME_LINK = 'https://yts.lt/browse-movies/Bumblebee/all/all/0/latest'
 DOWNLOAD_LINK = 'https://yts.lt/torrent/download'
 TITLE_CLASS = 'browse-movie-title'
 YEAR_CLASS = 'browse-movie-year'
-PROXIES = {
-    'http': 'http://35.236.147.162:80',
-    'https': 'https://sg1.serverssl.us:8080'
-}
+PROXIES = {}

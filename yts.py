@@ -6,15 +6,12 @@
 #
 # Distributed under terms of the MIT license.
 
-"""
-yts scraper
-"""
+""" yts scraper """
 import sys
 import settings
 import getopt
 import scraper
 import inquirer
-PROXIES={}
 
 
 def main():
@@ -27,7 +24,10 @@ def main():
             if opt in ('-q', '--query'):
                 query=arg
             if opt in ('-p', '--use-proxy'):
-                PROXIES = settings.PROXIES
+                settings.PROXIES = {
+                        'http': 'http://35.236.147.162:80',
+                        'https': 'https://103.224.5.5:54143'
+                        }
 
     except getopt.GetoptError:
         print('usage: ./main.py [query] [options]\noptions\n-q, --query= : movie to search for\n-p,--use-proxy: use anonymous proxy')
@@ -42,11 +42,11 @@ def main():
         return 1
 
     questions = [
-        inquirer.List('movie',
-                      'Choose a movie to download?',
-                      list(map(lambda x: x[0].string + " (" + x[1].string + ")", links))
-                      )
-    ]
+            inquirer.List('movie',
+                'Choose a movie to download?',
+                list(map(lambda x: x[0].string + " (" + x[1].string + ")", links))
+                )
+            ]
     answers = inquirer.prompt(questions)
     answers = answers['movie'].split('(', 1)[0][:-1]
     print('Getting Download Links...')
@@ -55,14 +55,14 @@ def main():
     links = scraper.get_downloads(link)
     links = list(filter(lambda x: x.string != None, links))
     questions = [
-        inquirer.List('quality',
-                      'Choose a quality to download?',
-                      list(map(lambda x: x.string, links))
-                      )
-    ]
+            inquirer.List('quality',
+                'Choose a quality to download?',
+                list(map(lambda x: x.string, links))
+                )
+            ]
     answers = inquirer.prompt(questions)
     link = list(filter(lambda x: x.string == answers['quality'], links))[
-        0].get('href')
+            0].get('href')
     scraper.open_torrent(link)
     print("Link:", link)
 

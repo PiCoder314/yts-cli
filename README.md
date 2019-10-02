@@ -37,9 +37,9 @@ sh -c "curl -fsSL https://github.com/PiCoder314/yts-cli/archive/master.zip -o ma
 
 ```sh
 
-chmod u+x main.py
+chmod u+x yts.py
 
-./main.py --query=<search-term> <options>
+./yts.py --query=<search-term> <options>
 
 -q, --query= : Movie to search for.
 
