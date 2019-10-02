@@ -2,6 +2,7 @@
 > Free movies for everyone
 
 An unofficial CLI client for yts.am torrents.
+
 Made by PiCoder314.
 
 ## Coming Soon
@@ -43,6 +44,7 @@ chmod u+x main.py
 
 ## Contributing
 Feel free to download the source code, open issues and open pull requests
+
 Recommended to use PEP8 rules for pull requests
 
 ## Disclaimer
