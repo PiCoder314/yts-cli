@@ -65,7 +65,7 @@ def main():
     answers = inquirer.prompt(questions)
     link = list(filter(lambda x: x.string == answers['quality'], links))[
         0].get('href')
-    open_torrent(link)
+    scraper.open_torrent(link)
     print("Link:", link)
 
 
