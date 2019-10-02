@@ -9,6 +9,11 @@
 """
 yts scraper
 """
+from re import compile
+from bs4 import BeautifulSoup
+import inquirer
+from requests import get
+import os
 import settings
 import main
 SEARCH_LINK = settings.SEARCH_LINK
@@ -16,7 +21,9 @@ HOME_LINK = settings.HOME_LINK
 PROXIES = main.PROXIES
 DOWNLOAD_LINK = settings.DOWNLOAD_LINK
 TITLE_CLASS = settings.TITLE_CLASS
-import os
+YEAR_CLASS = settings.YEAR_CLASS
+
+
 def check_dependencies(exe):
     try:
         __import__(exe)
@@ -24,15 +31,11 @@ def check_dependencies(exe):
           print(f"Trying to Install required module: {exe}\n")
           os.system(f'python3 -m pip install {exe}')
 
-from re import compile
+
 check_dependencies('requests')
-from requests import get
 check_dependencies('inquirer')
-import inquirer
 check_dependencies('bs4')
 check_dependencies('html5lib')
-from bs4 import BeautifulSoup
-
 
 
 def get_movie(query):
@@ -40,15 +43,23 @@ def get_movie(query):
     response = get(SEARCH_LINK.replace('{query}', query), proxies=PROXIES)
     html = response.text
     soup = BeautifulSoup(html, 'html5lib')
-    return soup.find_all(name='a',
+    movie = []
+    movie.append(soup.find_all(name='a',
                          attrs={'class': TITLE_CLASS}
-                         )
+                         ))
+    movie.append(soup.find_all(name='div',
+                         attrs={'class': YEAR_CLASS}
+                         ))
+    import itertools
+    movie = list(itertools.zip_longest(*movie))
+    return movie
+
 
 
 def get_downloads(link):
-    response = get(link, proxies=PROXIES)
-    html = response.text
-    soup = BeautifulSoup(html, 'html5lib')
+    response=get(link, proxies=PROXIES)
+    html=response.text
+    soup=BeautifulSoup(html, 'html5lib')
     return soup.find_all('a',
                          attrs={'href': compile(f'^{DOWNLOAD_LINK}.*')})
 

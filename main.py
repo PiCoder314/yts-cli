@@ -14,10 +14,6 @@ import settings
 import getopt
 import scraper
 import inquirer
-SEARCH_LINK = settings.SEARCH_LINK
-HOME_LINK = settings.HOME_LINK
-DOWNLOAD_LINK = settings.DOWNLOAD_LINK
-TITLE_CLASS = settings.TITLE_CLASS
 PROXIES={}
 
 
@@ -41,14 +37,14 @@ def main():
 
     print(f"Searching for {query}...")
     links = scraper.get_movie(query)
-    if len(links) == 0:
+    if len(links[0]) == 0:
         print('No movies found check the spelling')
         return 1
 
     questions = [
         inquirer.List('movie',
                       'Choose a movie to download?',
-                      list(map(lambda x: x.string, links))
+                      list(map(lambda x: x[0].string + " (" + x[1].string + ")", links))
                       )
     ]
     answers = inquirer.prompt(questions)
