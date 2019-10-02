@@ -1,4 +1,5 @@
 # yts-cli
+> Free movies for everyone
 An unofficial CLI client for yts.am torrents.
 Made by PiCoder314.
 
@@ -12,19 +13,19 @@ Made by PiCoder314.
 ### git
 
 ```sh
-sh -c "git clone https://github.com/PiCoder314/yts-cli/master.git"
+sh -c "git clone https://github.com/PiCoder314/yts-cli.git"
 ```
 
 ### wget
 
 ```sh
-sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip"
+sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip && rm master.zip"
 ```
 
 ### curl
 
 ```sh
-sh -c "curl https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip"
+sh -c "curl https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip && rm master.zip"
 ```
 ## Usage
 
@@ -35,8 +36,9 @@ chmod u+x main.py
 ```
 
 
-## Help needed
-Newbie developer, any help will be appreciated.
+## Contributing
+Feel free to download the source code, open issues and open pull requests
+Recommended to use PEP8 rules for pull requests
 
 ## Disclaimer
 I am not the owner of any content, all content is provided by YTS.AM(formerly YIFY torrents).
