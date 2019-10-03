@@ -12,6 +12,7 @@ Made by PiCoder314.
 + Trakt TV Authorization
 
 ## Prerequisites
++ Non Windows Environment(Windows not supported and probably never will be.)
 + Python3 or above. [Get Python](https://www.python.org/downloads/)
 + pip package manager for python. Tip you may already have it installed if you got python from above link.
 
@@ -24,26 +25,28 @@ sh -c "git clone https://github.com/PiCoder314/yts-cli.git"
 
 ### wget
 
-```sh
+```shell
 sh -c "wget https://github.com/PiCoder314/yts-cli/archive/master.zip && unzip master.zip && rm master.zip"
 ```
 
 ### curl
 
-```sh
+```shell
 sh -c "curl -fsSL https://github.com/PiCoder314/yts-cli/archive/master.zip -o master.zip && unzip master.zip && rm master.zip"
 ```
 ## Usage
 
-```sh
+```shell
 
 chmod u+x yts.py
 
 ./yts.py --query=<search-term> <options>
 
--q, --query= : Movie to search for.
+-q, --query= : movie to search for.
 
--p, --use-proxy : Use anonymous proxy.
+-p, --use-proxy : use anonymous proxy.
+
+-c, --use-cli : use aria2c to download torrent in command line.Install aria2c by `<package manager> <install command> arai2`.
 
 ```
 
