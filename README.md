@@ -46,7 +46,7 @@ chmod u+x yts.py
 
 -p, --use-proxy : use anonymous proxy.
 
--c, --use-cli : use aria2c to download torrent in command line.Install aria2c by `<package manager> <install command> arai2`.
+-c, --use-cli : use aria2c to download torrent in command line.Install aria2c by <package manager> <install command> aria2.
 
 ```
 
