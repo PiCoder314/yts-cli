@@ -36,45 +36,52 @@ def main():
                 settings.OPEN_COMMAND = 'aria2c tmp.torrent'
 
     except getopt.GetoptError:
-        print('usage: ./main.py [query] [options]\noptions\n-q, --query= : movie to search for\n-p,--use-proxy: use anonymous proxy')
+        print('usage: ./main.py [query] [options]\noptions\n-q, --query= : movie to search for\n-p,--use-proxy: use anonymous proxy\n-c, --use-cli : use aria2 to download torrent')
 
     if 'query' not in locals():
         query = input('Enter movie name: ')
 
     # Get movies for yts.am
     print(f"Searching for {query}...")
-    links = scraper.get_movie(query)
-    if len(links) == 0:
+    movies = scraper.get_movie(query)
+    if len(movies) == 0:
         print('No movies found check the spelling')
         return 1
 
     # Prompt to choose movie
+    print('Choose a movie to download')
     questions = [
             inquirer.List('movie',
-                'Choose a movie to download?',
-                list(map(lambda x: x[0].string + " (" + x[1].string + ")", links)),
+                '==> ',
+                [f"{movie['name']} ({movie['year']})" for movie in movies],
                 carousel=True
                 )
             ]
     answers = inquirer.prompt(questions)
-    answers = answers['movie'].split('(', 1)[0][:-1]
+    answer = answers['movie'].split('(', 1)[0][:-1]
+
     # Get download links for choosen movie
     print('Getting Download Links...')
-    link = list(filter(lambda x: x[0].string == answers, links))[0][0].get('href')
+    link = [movie['link'] for movie in movies if movie['name'] == answer][0]
     print(link)
+
+    # Get download links from scraper
     links = scraper.get_downloads(link)
-    links = list(filter(lambda x: x.string != None, links))
+    links = [link for link in links if link.string != None]
+
     # Prompt to choose download quality
+    print('Choose a quality to download')
     questions = [
             inquirer.List('quality',
-                'Choose a quality to download?',
-                list(map(lambda x: x.string, links)),
+                '==> ',
+                [link.string for link in links],
                 carousel=True
                 )
             ]
+
     answers = inquirer.prompt(questions)
-    link = list(filter(lambda x: x.string == answers['quality'], links))[
-            0].get('href')
+    link = list(filter(lambda x: x.string == answers['quality'], links))[0].get('href')
+
     # Download the torrent file and prompt to open
     scraper.open_torrent(link)
     print("Link:", link)

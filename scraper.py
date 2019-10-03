@@ -6,7 +6,16 @@
 #
 # Distributed under terms of the MIT license.
 
-""" yts scraper """
+# -*- coding: utf-8 -*-
+"""
+    yts-cli.scraper
+    ~~~~~~~~~~~~~~~
+
+    YTS.AM website scraper
+
+    :license: MIT, see LICENSE for more details.
+"""
+
 # Custom Modules
 import settings
 import os
@@ -29,45 +38,97 @@ def check_dependencies(exe):
 check_dependencies('requests')
 check_dependencies('inquirer')
 check_dependencies('bs4')
-check_dependencies('html5lib')
+check_dependencies('lxml')
 # Pip Modules
-from re import compile
+import re
 from bs4 import BeautifulSoup
 import inquirer
-from requests import get
+import requests
+
 
 def get_movie(query):
+    """ 
+    Description: Get movies by search term
+    Args: query
+    """
     PROXIES = settings.PROXIES
-    print("Getting Data...")
-    response = get(SEARCH_LINK.replace('{query}', query), proxies=PROXIES)
+
+    try:
+        response = requests.get(SEARCH_LINK.replace('{query}', query), proxies=PROXIES)
+    except requests.exceptions.ProxyError:
+        print('ProxyError please try again later.\nWe recommend to use a VPN.')
+        return []
     html = response.text
-    soup = BeautifulSoup(html, 'html5lib')
-    movie = []
-    movie.append(soup.find_all(name='a',
-                               attrs={'class': TITLE_CLASS}
-                               ))
-    movie.append(soup.find_all(name='div',
-                               attrs={'class': YEAR_CLASS}
-                               ))
-    import itertools
-    movie = list(itertools.zip_longest(*movie))
-    return movie
+
+    soup = BeautifulSoup(html, 'lxml')
+
+    movies_info = {}
+
+    movies_info['tags'] = soup.find_all(name='a',
+            attrs={'class': TITLE_CLASS}
+            )
+
+    movies_info['names'] = []
+    movies_info['links'] = []
+    movies_info['years'] = []
+
+    for tag in movies_info['tags']:
+        movies_info['names'].append(tag.string)
+        movies_info['links'].append(tag.get('href'))
+
+    movies_info['year_tags'] = soup.find_all(name='div',
+            attrs={'class': YEAR_CLASS}
+            )
+    for tag in movies_info['year_tags']:
+        movies_info['years'].append(tag.string)
+
+    movies = []
+
+    for i, info in enumerate(movies_info['names']):
+        movies.append({
+            "name": movies_info['names'][i],
+            "link": movies_info['links'][i],
+            "year": movies_info['years'][i]
+            })
+
+    return movies
 
 
 def get_downloads(link):
+    """ 
+    Description: Get download links by movie link
+    Args: link
+    """
+
     PROXIES = settings.PROXIES
-    response = get(link, proxies=PROXIES)
+    try:
+        response = requests.get(link, proxies=PROXIES)
+    except requests.exceptions.ProxyError:
+        print('ProxyError please try again later.\nWe recommend to use a VPN.')
+        return []
     html = response.text
-    soup = BeautifulSoup(html, 'html5lib')
-    return soup.find_all('a',
-                         attrs={'href': compile(f'^{DOWNLOAD_LINK}.*')})
+
+    soup = BeautifulSoup(html, 'lxml')
+
+    links = soup.find_all('a',
+                         attrs={'href': re.compile(f'^{DOWNLOAD_LINK}.*')})
+
+    return links
 
 
 def open_torrent(link):
+    """ 
+    Description: Download torrent file by link
+    Args: link
+    """
     PROXIES = settings.PROXIES
     with open('tmp.torrent', 'wb+') as file:
-        file.write(get(link, proxies=PROXIES).content)
-    os.system('xdg-open tmp.torrent')
+        try:
+            file.write(requests.get(link, proxies=PROXIES).content)
+        except requests.exceptions.ProxyError:
+            print('ProxyError please try again later.\nWe recommend to use a VPN.')
+            return
+    os.system(settings.OPEN_COMMAND)
 
 
 def main():
