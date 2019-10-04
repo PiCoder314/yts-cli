@@ -18,6 +18,7 @@
 
 # Custom Modules
 import settings
+import sys
 import os
 # Global Variables
 SEARCH_LINK = settings.SEARCH_LINK
@@ -57,7 +58,10 @@ def get_movie(query):
         response = requests.get(SEARCH_LINK.replace('{query}', query), proxies=PROXIES)
     except requests.exceptions.ProxyError:
         print('ProxyError please try again later.\nWe recommend to use a VPN.')
-        return []
+        sys.exit(1)
+    except requests.exceptions.ConnectionError:
+        print('Use the proxy flag or a VPN')
+        sys.exit(1)
     html = response.text
 
     soup = BeautifulSoup(html, 'lxml')
@@ -105,7 +109,10 @@ def get_downloads(link):
         response = requests.get(link, proxies=PROXIES)
     except requests.exceptions.ProxyError:
         print('ProxyError please try again later.\nWe recommend to use a VPN.')
-        return []
+        sys.exit(1)
+    except requests.exceptions.ConnectionError:
+        print('Use the proxy flag or a VPN')
+        sys.exit(1)
     html = response.text
 
     soup = BeautifulSoup(html, 'lxml')
@@ -127,7 +134,10 @@ def open_torrent(link):
             file.write(requests.get(link, proxies=PROXIES).content)
         except requests.exceptions.ProxyError:
             print('ProxyError please try again later.\nWe recommend to use a VPN.')
-            return
+            sys.exit(1)
+        except requests.exceptions.ConnectionError:
+            print('Use the proxy flag or a VPN')
+            sys.exit(1)
     os.system(settings.OPEN_COMMAND)
 
 

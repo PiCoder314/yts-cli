@@ -24,7 +24,7 @@ def main():
         for opt, arg in opts:
             if opt in ('-h', '--help'):
                 print('usage: ./main.py [query] [options]\noptions\n-q, --query= : movie to search for\n-p,--use-proxy : use anonymous proxy')
-                return 0
+                sys.exit(0)
             if opt in ('-q', '--query'):
                 query=arg
             if opt in ('-p', '--use-proxy'):
@@ -46,7 +46,7 @@ def main():
     movies = scraper.get_movie(query)
     if len(movies) == 0:
         print('No movies found check the spelling')
-        return 1
+        sys.exit(1)
 
     # Prompt to choose movie
     print('Choose a movie to download')
