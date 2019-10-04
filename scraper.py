@@ -16,18 +16,6 @@
     :license: MIT, see LICENSE for more details.
 """
 
-# Custom Modules
-import settings
-import sys
-import os
-# Global Variables
-SEARCH_LINK = settings.SEARCH_LINK
-HOME_LINK = settings.HOME_LINK
-DOWNLOAD_LINK = settings.DOWNLOAD_LINK
-TITLE_CLASS = settings.TITLE_CLASS
-YEAR_CLASS = settings.YEAR_CLASS
-
-
 def check_dependencies(exe):
     try:
         __import__(exe)
@@ -45,6 +33,19 @@ import re
 from bs4 import BeautifulSoup
 import inquirer
 import requests
+
+# Custom Modules
+import settings
+import sys
+import os
+# Global Variables
+SEARCH_LINK = settings.SEARCH_LINK
+HOME_LINK = settings.HOME_LINK
+DOWNLOAD_LINK = settings.DOWNLOAD_LINK
+TITLE_CLASS = settings.TITLE_CLASS
+YEAR_CLASS = settings.YEAR_CLASS
+
+
 
 
 def get_movie(query):
