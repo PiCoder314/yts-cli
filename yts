@@ -1,0 +1,2 @@
+#!/bin/sh
+./bin/bin/python3 ./bin/main.py $@

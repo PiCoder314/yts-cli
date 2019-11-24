@@ -1,33 +1,9 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
-#
-# Copyright © 2019  <@localhost>
-#
-# Distributed under terms of the MIT license.
+import sys
+import os
 
-# -*- coding: utf-8 -*-
-"""
-    yts-cli.scraper
-    ~~~~~~~~~~~~~~~
-
-    YTS.AM website scraper
-
-    :license: MIT, see LICENSE for more details.
-"""
-
-def check_dependencies(exe):
-    try:
-        __import__(exe)
-    except ImportError:
-        print(f"Trying to Install required module: {exe}\n")
-        os.system(f'python3 -m pip install {exe}')
-
-# Dependency Check
-check_dependencies('requests')
-check_dependencies('inquirer')
-check_dependencies('bs4')
-check_dependencies('lxml')
 # Pip Modules
 import re
 from bs4 import BeautifulSoup
@@ -36,11 +12,10 @@ import requests
 
 # Custom Modules
 import settings
-import sys
-import os
+
 # Global Variables
 SEARCH_LINK = settings.SEARCH_LINK
-HOME_LINK = settings.HOME_LINK
+BASE_LINK = settings.BASE_LINK
 DOWNLOAD_LINK = settings.DOWNLOAD_LINK
 TITLE_CLASS = settings.TITLE_CLASS
 YEAR_CLASS = settings.YEAR_CLASS
@@ -48,24 +23,42 @@ YEAR_CLASS = settings.YEAR_CLASS
 
 
 
-def get_movie(query):
-    """ 
-    Description: Get movies by search term
-    Args: query
-    """
-    PROXIES = settings.PROXIES
+class Movie():
 
+    """Docstring for Movie. """
+
+    def __init__(self, name="", year="", link=""):
+        self.name = name
+        self.year = year
+        self.link = link
+    def set_name(self, name):
+        self.name = name
+    def set_year(self, year):
+        self.year = year
+    def set_link(self, link):
+        self.link = link
+    def get_link(self):
+        return self.link
+    def get_name(self):
+        return self.name
+    def get_year(self):
+        return self.year
+        
+
+def get_movie(query):
+    PROXIES = settings.PROXIES
     try:
         response = requests.get(SEARCH_LINK.replace('{query}', query), proxies=PROXIES)
+        html = response.text
     except requests.exceptions.ProxyError:
-        print('ProxyError please try again later.\nWe recommend to use a VPN.')
+        print('ProxyError please try again later.\n' +
+              'We recommend to use a VPN.')
         sys.exit(1)
     except requests.exceptions.ConnectionError:
         print('Use the proxy flag or a VPN')
         sys.exit(1)
-    html = response.text
 
-    soup = BeautifulSoup(html, 'lxml')
+    soup = BeautifulSoup(html, 'html.parser')
 
     movies_info = {}
 
@@ -90,11 +83,11 @@ def get_movie(query):
     movies = []
 
     for i, info in enumerate(movies_info['names']):
-        movies.append({
-            "name": movies_info['names'][i],
-            "link": movies_info['links'][i],
-            "year": movies_info['years'][i]
-            })
+        movie = Movie()
+        movie.set_name(movies_info['names'][i])
+        movie.set_year(movies_info['years'][i])
+        movie.set_link(movies_info['links'][i])
+        movies.append(movie)
 
     return movies
 
@@ -116,7 +109,7 @@ def get_downloads(link):
         sys.exit(1)
     html = response.text
 
-    soup = BeautifulSoup(html, 'lxml')
+    soup = BeautifulSoup(html, 'html.parser')
 
     links = soup.find_all('a',
                          attrs={'href': re.compile(f'^{DOWNLOAD_LINK}.*')})
@@ -130,7 +123,7 @@ def open_torrent(link):
     Args: link
     """
     PROXIES = settings.PROXIES
-    with open('tmp.torrent', 'wb+') as file:
+    with open('./files/tmp.torrent', 'wb+') as file:
         try:
             file.write(requests.get(link, proxies=PROXIES).content)
         except requests.exceptions.ProxyError:

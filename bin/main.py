@@ -1,12 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
-#
-# Copyright © 2019  <@localhost>
-#
-# Distributed under terms of the MIT license.
-
-""" yts scraper """
 import sys
 import settings
 import getopt
@@ -33,7 +27,7 @@ def main():
                         'https': 'https://103.224.5.5:54143'
                         }
             if opt in ('-c', '--use-cli'):
-                settings.OPEN_COMMAND = 'aria2c tmp.torrent'
+                settings.OPEN_COMMAND = 'aria2c ./files/tmp.torrent'
 
     except getopt.GetoptError:
         print('usage: ./main.py [query] [options]\noptions\n-q, --query= : movie to search for\n-p,--use-proxy: use anonymous proxy\n-c, --use-cli : use aria2 to download torrent')
@@ -53,7 +47,7 @@ def main():
     questions = [
             inquirer.List('movie',
                 '==> ',
-                [f"{movie['name']} ({movie['year']})" for movie in movies],
+                [f"{movie.name} ({movie.year})" for movie in movies],
                 carousel=True
                 )
             ]
@@ -62,7 +56,7 @@ def main():
 
     # Get download links for choosen movie
     print('Getting Download Links...')
-    link = [movie['link'] for movie in movies if movie['name'] == answer][0]
+    link = [movie.link for movie in movies if movie.name == answer][0]
     print(link)
 
     # Get download links from scraper
