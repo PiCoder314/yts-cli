@@ -1,2 +1,2 @@
 #!/bin/sh
-./bin/bin/python3 ./bin/main.py $@
+./bin/bin/python3 ./bin/tui.py $@
