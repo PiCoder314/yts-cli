@@ -56,7 +56,7 @@ if __name__ == "__main__":
     for _ in range(title_window.getmaxyx()[1]):
         title_window.addstr(u'\u2500')
     title_panel = curses.panel.new_panel(title_window)
-    space = form.Form(0, 5, ROWS-7, COLS)
+    space = form.Form(0, 5, ROWS-5, COLS)
     space.set_title("Movies")
     movies = menu.Menu(space.win, ["Press q to quit", "Press / to search a movie", "Press j and k to navigate", "More features coming soon"])
     space.add_widget(movies)
