@@ -56,7 +56,7 @@ class Menu():
                 self.window.clear()
                 self.search()
             if chr(key) == 'q':
-                curses.curs_set(1)
+                curses.curs_set(2)
                 curses.endwin()
                 quit()
 

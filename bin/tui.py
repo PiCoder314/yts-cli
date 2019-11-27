@@ -28,6 +28,11 @@ def init_colors():
 def quit():
     global running
     running = False
+    stdscr.clear()
+    title_window.clear()
+    space.win.clear()
+    curses.curs_set(1)
+    curses.endwin()
 
 
 def mainloop():
@@ -38,9 +43,6 @@ def mainloop():
         curses.noecho()
         curses.curs_set(0)
         space.listen()
-    stdscr.clear()
-    curses.curs_set(1)
-    curses.endwin()
 
 
 if __name__ == "__main__":
@@ -56,7 +58,7 @@ if __name__ == "__main__":
     title_panel = curses.panel.new_panel(title_window)
     space = form.Form(0, 5, ROWS-7, COLS)
     space.set_title("Movies")
-    movies = menu.Menu(space.win, ["Press q tp quit", "Press / to search a movie", "More features coming soon"])
+    movies = menu.Menu(space.win, ["Press q to quit", "Press / to search a movie", "Press j and k to navigate", "More features coming soon"])
     space.add_widget(movies)
 
 
